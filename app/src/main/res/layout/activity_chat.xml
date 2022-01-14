@@ -37,6 +37,7 @@
             app:civ_border_color="#C6000000" />
 
         <TextView
+            android:id="@+id/friendName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="გიორგი ფილიშვილი"

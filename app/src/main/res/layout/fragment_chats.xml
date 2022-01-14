@@ -2,14 +2,47 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/bg_color"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <RelativeLayout
+        android:id="@+id/topLine"
+        android:layout_width="match_parent"
+        android:padding="10dp"
+        android:layout_height="wrap_content">
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bg_edittext"
+            android:layout_toStartOf="@+id/buttonAddFriend"
+            android:hint="Search"
+            android:maxLines="1"
+            android:drawableStart="@drawable/ic_search"
+            android:paddingHorizontal="20dp"
+            android:layout_marginEnd="20dp"
+            android:layout_centerVertical="true"
+            android:paddingVertical="7dp" />
+
+        <ImageView
+            android:id="@+id/buttonAddFriend"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:background="@drawable/bg_icons"
+            app:tint="@color/opposite_color"
+            android:padding="8dp"
+            app:srcCompat="@drawable/ic_add_friend" />
+
+    </RelativeLayout>
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerViewChats"
+        android:layout_below="@+id/topLine"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:paddingTop="10dp"
-        tools:listitem="@layout/item_chat" />
+        tools:listitem="@layout/item_chat"/>
 
 </RelativeLayout>

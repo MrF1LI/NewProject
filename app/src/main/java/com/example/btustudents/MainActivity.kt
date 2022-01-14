@@ -32,7 +32,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun init() {
         binding.imageUserAvatar.setOnClickListener {
-            signOut()
+            startActivity(Intent(this, ProfileActivity::class.java))
         }
     }
 
@@ -56,12 +56,6 @@ class MainActivity : AppCompatActivity() {
         setupActionBarWithNavController(controller, appBarConfiguration)
         burgerNavigationView.setupWithNavController(controller)
 
-    }
-
-    private fun signOut() {
-        auth.signOut()
-        startActivity(Intent(this, LoginActivity::class.java))
-        finish()
     }
 
 }

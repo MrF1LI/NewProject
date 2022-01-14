@@ -8,11 +8,13 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.btustudents.adapters.MessageAdapter
 import com.example.btustudents.databinding.ActivityChatBinding
 import com.example.btustudents.models.Message
+import com.example.btustudents.models.Student
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
+import com.google.firebase.ktx.Firebase
 
 class ChatActivity : AppCompatActivity() {
 
@@ -22,6 +24,7 @@ class ChatActivity : AppCompatActivity() {
 
     private val auth = FirebaseAuth.getInstance()
     private val db = FirebaseDatabase.getInstance().getReference("chats")
+    private val dbStudents = FirebaseDatabase.getInstance().getReference("students")
 
     private var receiverRoom: String? = null
     private var senderRoom: String? = null
@@ -43,10 +46,29 @@ class ChatActivity : AppCompatActivity() {
         init()
         loadMessages()
         sendMessage(senderUid)
+        test(receiverUid.toString())
 
         binding.iconBack.setOnClickListener {
             finish()
         }
+
+    }
+
+    private fun test(receiverUid: String) {
+
+        dbStudents.addValueEventListener(object : ValueEventListener {
+
+            override fun onDataChange(snapshot: DataSnapshot) {
+                val currentName = snapshot.child(receiverUid).getValue(Student::class.java)?: return
+
+                binding.friendName.text = currentName.name + " " + currentName.surname
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                TODO("Not yet implemented")
+            }
+
+        })
 
     }
 

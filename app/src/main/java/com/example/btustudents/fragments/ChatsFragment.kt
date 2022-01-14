@@ -1,6 +1,5 @@
 package com.example.btustudents.fragments
 
-import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -9,11 +8,9 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.btustudents.ChatActivity
 import com.example.btustudents.R
 import com.example.btustudents.adapters.ChatsAdapter
 import com.example.btustudents.databinding.FragmentChatsBinding
-import com.example.btustudents.models.Student
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
@@ -57,6 +54,9 @@ class ChatsFragment: Fragment(R.layout.fragment_chats) {
 
         recyclerViewChats.layoutManager = layoutManager
 
+        binding.buttonAddFriend.setOnClickListener {
+            addFriend()
+        }
     }
 
     private fun loadChats() {
@@ -81,6 +81,10 @@ class ChatsFragment: Fragment(R.layout.fragment_chats) {
             }
 
         })
+    }
+
+    private fun addFriend() {
+        
     }
 
     override fun onDestroy() {
