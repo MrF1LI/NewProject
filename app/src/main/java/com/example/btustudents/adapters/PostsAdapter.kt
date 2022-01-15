@@ -11,6 +11,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.btustudents.R
 import com.example.btustudents.models.Post
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
@@ -20,6 +21,7 @@ import org.w3c.dom.Text
 class PostsAdapter(val context: Context, private val posts: List<Post>, private val listener: OnItemClickListener): RecyclerView.Adapter<PostsAdapter.ViewHolder>() {
 
     private val dbPosts = FirebaseDatabase.getInstance().getReference("posts")
+    private val auth = FirebaseAuth.getInstance()
 
     inner class ViewHolder(view: View): RecyclerView.ViewHolder(view), View.OnClickListener {
         val postOwner: TextView = view.findViewById(R.id.postOwner)
@@ -43,6 +45,7 @@ class PostsAdapter(val context: Context, private val posts: List<Post>, private 
             item.findViewById<ImageView>(R.id.iconReact).setOnClickListener {
                 listener.onReactClick(position, item.findViewById(R.id.iconReact))
             }
+
         }
 
     }
@@ -82,6 +85,25 @@ class PostsAdapter(val context: Context, private val posts: List<Post>, private 
                 TODO("Not yet implemented")
             }
 
+        })
+
+        val arrayList = arrayListOf<String>()
+
+        dbPosts.child(position.toString()).child("postReacts").addListenerForSingleValueEvent(object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                for (snap in snapshot.children) {
+                    val id = snap.getValue(String::class.java)?: return
+                    arrayList.add(id)
+                }
+
+                if (arrayList.contains(auth.currentUser!!.uid)) {
+                    holder.itemView.findViewById<ImageView>(R.id.iconReact).setImageResource(R.drawable.ic_reacted)
+                }
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                TODO("Not yet implemented")
+            }
         })
 
     }

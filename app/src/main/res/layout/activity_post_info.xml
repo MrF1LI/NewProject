@@ -106,7 +106,7 @@
                         android:id="@+id/commentCount"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
-                        android:text="512 Comment"
+                        android:text="0 Comment"
                         android:gravity="center"
                         android:paddingHorizontal="10dp" />
 

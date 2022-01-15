@@ -2,6 +2,7 @@ package com.example.btustudents.fragments
 
 import android.content.Intent
 import android.os.Bundle
+import android.renderscript.Sampler
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -105,7 +106,30 @@ class CommunityFragment: Fragment(R.layout.fragment_community), PostsAdapter.OnI
     }
 
     override fun onReactClick(position: Int, view: ImageView) {
-        view.setImageResource(R.drawable.ic_reacted)
+
+        val arrayList = arrayListOf<String>()
+
+        postsDb.child(position.toString()).child("postReacts").addListenerForSingleValueEvent(object : ValueEventListener {
+
+            override fun onDataChange(snapshot: DataSnapshot) {
+                for (snap in snapshot.children) {
+                    val id = snap.getValue(String::class.java)?: return
+                    arrayList.add(id)
+                }
+
+                if (!arrayList.contains(auth.currentUser!!.uid)) {
+                    snapshot.ref.push().setValue(auth.currentUser!!.uid).addOnSuccessListener {
+                        view.setImageResource(R.drawable.ic_reacted)
+                    }
+                }
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                TODO("Not yet implemented")
+            }
+
+        })
+
     }
 
 }

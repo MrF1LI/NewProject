@@ -78,9 +78,10 @@
 
             <ImageView
                 android:id="@+id/iconReact"
-                android:layout_width="28dp"
-                android:layout_height="28dp"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
                 app:tint="@color/text_color"
+                android:padding="3dp"
                 app:srcCompat="@drawable/ic_react" />
 
             <TextView
@@ -111,8 +112,9 @@
 
             <ImageView
                 android:id="@+id/iconComment"
-                android:layout_width="28dp"
-                android:layout_height="28dp"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                android:padding="3dp"
                 app:tint="@color/text_color"
                 app:srcCompat="@drawable/ic_comment" />
 

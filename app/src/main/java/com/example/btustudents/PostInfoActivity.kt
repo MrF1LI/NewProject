@@ -40,6 +40,7 @@ class PostInfoActivity : AppCompatActivity() {
 
         loadCurrentPost(currentPostId)
         loadPostComments(currentPostId)
+        checkReact(currentPostId)
 
     }
 
@@ -168,6 +169,29 @@ class PostInfoActivity : AppCompatActivity() {
                     }
 
                 })
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                TODO("Not yet implemented")
+            }
+
+        })
+    }
+
+    private fun checkReact(currentPostId: Int) {
+        val arrayList = arrayListOf<String>()
+
+        dbPosts.child(currentPostId.toString()).child("postReacts").addListenerForSingleValueEvent(object : ValueEventListener {
+
+            override fun onDataChange(snapshot: DataSnapshot) {
+                for (snap in snapshot.children) {
+                    val id = snap.getValue(String::class.java)?: return
+                    arrayList.add(id)
+                }
+
+                if (arrayList.contains(auth.currentUser!!.uid)) {
+                    binding.iconReact.setImageResource(R.drawable.ic_reacted)
+                }
             }
 
             override fun onCancelled(error: DatabaseError) {

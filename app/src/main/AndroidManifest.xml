@@ -12,9 +12,6 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.BTUStudents">
         <activity
-            android:name=".AddFriendActivity"
-            android:exported="true" />
-        <activity
             android:name=".ProfileActivity"
             android:exported="true" />
         <activity

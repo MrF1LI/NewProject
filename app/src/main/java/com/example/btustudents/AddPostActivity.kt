@@ -3,6 +3,7 @@ package com.example.btustudents
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.view.WindowManager
 import androidx.appcompat.app.AlertDialog
 import com.example.btustudents.databinding.ActivityAddPostBinding
 import com.example.btustudents.models.Post
@@ -34,6 +35,9 @@ class AddPostActivity : AppCompatActivity() {
 
     private fun init() {
 
+        binding.editTextPost.requestFocus()
+        window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE)
+
         binding.buttonBack.setOnClickListener {
             finish()
         }
@@ -53,6 +57,10 @@ class AddPostActivity : AppCompatActivity() {
             } else {
                 Log.d("Show", "Error")
             }
+
+        }
+
+        binding.buttonAddTags.setOnClickListener {
 
         }
 
