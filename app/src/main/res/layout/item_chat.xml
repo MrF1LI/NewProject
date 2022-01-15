@@ -8,9 +8,9 @@
 
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/userAvatar"
-        android:layout_width="40dp"
+        android:layout_width="50dp"
         android:layout_margin="10dp"
-        android:layout_height="40dp"
+        android:layout_height="50dp"
         android:layout_alignParentStart="true"
         android:layout_centerVertical="true"
         android:src="@drawable/ic_user_default"
@@ -32,7 +32,7 @@
             android:layout_alignParentStart="true"
             android:layout_alignParentTop="true"
             android:textStyle="bold"
-            android:textSize="15sp"
+            android:textSize="16sp"
             android:textColor="@color/black"
             android:text="გიზი ჯალიაშვილი" />
 

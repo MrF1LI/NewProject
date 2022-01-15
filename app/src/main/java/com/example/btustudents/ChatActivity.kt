@@ -14,7 +14,6 @@ import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
-import com.google.firebase.ktx.Firebase
 
 class ChatActivity : AppCompatActivity() {
 
@@ -113,6 +112,19 @@ class ChatActivity : AppCompatActivity() {
 
             db.child(senderRoom!!).child("messages").push().setValue(message).addOnSuccessListener {
                 db.child(receiverRoom!!).child("messages").push().setValue(message)
+            }.addOnSuccessListener {
+
+                dbStudents.addValueEventListener(object : ValueEventListener {
+                    override fun onDataChange(snapshot: DataSnapshot) {
+                        val currentUser = snapshot.child(auth.currentUser!!.uid).getValue(Student::class.java)?: return
+                        val currentUserName = currentUser.name + " " + currentUser.surname
+                    }
+
+                    override fun onCancelled(error: DatabaseError) {
+                        TODO("Not yet implemented")
+                    }
+                })
+
             }
 
             recyclerViewMessages.smoothScrollToPosition(arrayListMessages.size)
@@ -123,3 +135,13 @@ class ChatActivity : AppCompatActivity() {
     }
 
 }
+
+
+
+
+
+
+
+
+
+

@@ -1,5 +1,6 @@
 package com.example.btustudents.fragments
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -53,23 +54,18 @@ class ChatsFragment: Fragment(R.layout.fragment_chats) {
         layoutManager.stackFromEnd = true
 
         recyclerViewChats.layoutManager = layoutManager
-
-        binding.buttonAddFriend.setOnClickListener {
-            addFriend()
-        }
     }
 
     private fun loadChats() {
-        currentStudent.child("friends").addValueEventListener(object : ValueEventListener {
+        dbStudents.addValueEventListener(object : ValueEventListener {
 
             override fun onDataChange(snapshot: DataSnapshot) {
 
                 arrayListFriends.clear()
 
                 for (friendSnapshot in snapshot.children) {
-                    val currentFriend = friendSnapshot.getValue(String::class.java)?: return
+                    val currentFriend = friendSnapshot.key.toString()
                     arrayListFriends.add(currentFriend)
-                    Log.d("Show", currentFriend)
                 }
 
                 recyclerViewChats.adapter = ChatsAdapter(context!!.applicationContext, arrayListFriends)
@@ -81,10 +77,6 @@ class ChatsFragment: Fragment(R.layout.fragment_chats) {
             }
 
         })
-    }
-
-    private fun addFriend() {
-        
     }
 
     override fun onDestroy() {
