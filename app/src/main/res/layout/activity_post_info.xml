@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
+    android:background="@color/item_color"
     tools:context=".PostInfoActivity">
 
     <ScrollView
@@ -40,10 +40,10 @@
                     android:layout_alignParentTop="true"
                     android:layout_toEndOf="@+id/userAvatar"
                     android:ellipsize="end"
-                    android:paddingHorizontal="10dp"
                     android:maxLines="1"
+                    android:paddingHorizontal="10dp"
                     android:text="გიორგი ფილიშვილი"
-                    android:textColor="@color/btu_dark"
+                    android:textColor="@color/opposite_color"
                     android:textSize="16sp"
                     android:textStyle="bold" />
 
@@ -57,14 +57,31 @@
 
             </RelativeLayout>
 
-            <TextView
-                android:id="@+id/postContent"
+            <LinearLayout
+                android:id="@+id/postContentContainer"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingVertical="8dp"
                 android:layout_below="@id/postHeader"
-                android:textSize="16sp"
-                android:text="ერთი ორი სამი ოთხი ხუთი ექვსი შვისი რვა ცხრა ათი თერთმეტი თორმეტი ცამეტი თოთხმეტი" />
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/postContent"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/text_color"
+                    android:paddingVertical="8dp"
+                    android:text="ერთი ორი სამი ოთხი ხუთი ექვსი შვისი რვა ცხრა ათი თერთმეტი თორმეტი ცამეტი თოთხმეტი"
+                    android:textSize="16sp" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/recyclerViewTags"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    tools:itemCount="2"
+                    tools:listitem="@layout/item_tag" />
+
+            </LinearLayout>
 
             <LinearLayout
                 android:id="@+id/reactAndComment"
@@ -72,7 +89,7 @@
                 android:layout_height="wrap_content"
                 android:weightSum="2"
                 android:paddingVertical="8dp"
-                android:layout_below="@+id/postContent"
+                android:layout_below="@+id/postContentContainer"
                 android:orientation="horizontal">
 
                 <LinearLayout
@@ -84,6 +101,7 @@
                         android:id="@+id/iconReact"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        app:tint="@color/text_color"
                         app:srcCompat="@drawable/ic_react" />
 
                     <TextView
@@ -92,6 +110,7 @@
                         android:layout_height="match_parent"
                         android:gravity="center"
                         android:text="512 Like"
+                        android:textColor="@color/text_color"
                         android:paddingHorizontal="10dp" />
 
                 </LinearLayout>
@@ -106,6 +125,7 @@
                         android:id="@+id/commentCount"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
+                        android:textColor="@color/text_color"
                         android:text="0 Comment"
                         android:gravity="center"
                         android:paddingHorizontal="10dp" />
@@ -113,6 +133,7 @@
                     <ImageView
                         android:id="@+id/iconComment"
                         android:layout_width="wrap_content"
+                        app:tint="@color/text_color"
                         android:layout_height="wrap_content"
                         app:srcCompat="@drawable/ic_comment" />
 
@@ -177,6 +198,8 @@
             android:id="@+id/buttonAddComment"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:background="@color/item_color"
+            android:textColor="@color/opposite_color"
             android:layout_alignParentEnd="true"
             android:text="Add" />
 

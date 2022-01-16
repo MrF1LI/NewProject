@@ -5,7 +5,10 @@ import android.os.Bundle
 import android.util.Log
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.beloo.widget.chipslayoutmanager.ChipsLayoutManager
+import com.beloo.widget.chipslayoutmanager.SpacingItemDecoration
 import com.example.btustudents.adapters.CommentsAdapter
+import com.example.btustudents.adapters.TagAdapter
 import com.example.btustudents.databinding.ActivityPostInfoBinding
 import com.example.btustudents.models.Comment
 import com.example.btustudents.models.Post
@@ -26,6 +29,9 @@ class PostInfoActivity : AppCompatActivity() {
     private lateinit var arrayListComments: ArrayList<Comment>
     private lateinit var recyclerViewComments: RecyclerView
 
+    private lateinit var arrayListTags: ArrayList<String>
+    private lateinit var recyclerViewTags: RecyclerView
+
     private var currentPostId: Int = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -41,6 +47,7 @@ class PostInfoActivity : AppCompatActivity() {
         loadCurrentPost(currentPostId)
         loadPostComments(currentPostId)
         checkReact(currentPostId)
+        addReact(currentPostId)
 
     }
 
@@ -56,6 +63,25 @@ class PostInfoActivity : AppCompatActivity() {
 
         recyclerViewComments.layoutManager = layoutManager
 
+        //
+
+
+        arrayListTags = arrayListOf()
+        recyclerViewTags = binding.recyclerViewTags
+
+        val layoutManagerTags = ChipsLayoutManager.newBuilder(this)
+            .build()
+
+        recyclerViewTags.layoutManager = layoutManagerTags
+        recyclerViewTags.addItemDecoration(
+            SpacingItemDecoration(
+                resources.getDimensionPixelOffset(R.dimen.item_space),
+                resources.getDimensionPixelOffset(R.dimen.item_space)
+            )
+        )
+
+        //
+
         binding.buttonAddComment.setOnClickListener {
             if (binding.editTextNewComment.text.isNotEmpty()) {
                 addNewComment(currentPostId)
@@ -70,6 +96,18 @@ class PostInfoActivity : AppCompatActivity() {
 
             override fun onDataChange(snapshot: DataSnapshot) {
                 if (snapshot.exists()) {
+
+                    val current = snapshot.child(currentPostId.toString())
+
+                    for (tag in current.child("postTags").children) {
+                        val currentTag = tag.getValue(String::class.java)?: return
+                        arrayListTags.add(currentTag)
+                    }
+
+                    recyclerViewTags.adapter = TagAdapter(this@PostInfoActivity, arrayListTags)
+
+                    //
+
                     val currentPost = snapshot.child(currentPostId.toString()).getValue(Post::class.java)?: return
 
                     binding.postOwner.text = currentPost.postOwner
@@ -199,6 +237,35 @@ class PostInfoActivity : AppCompatActivity() {
             }
 
         })
+    }
+
+    private fun addReact(currentPostId: Int) {
+
+        binding.iconReact.setOnClickListener {
+            val arrayList = arrayListOf<String>()
+
+            dbPosts.child(currentPostId.toString()).child("postReacts").addListenerForSingleValueEvent(object : ValueEventListener {
+
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    for (snap in snapshot.children) {
+                        val id = snap.getValue(String::class.java)?: return
+                        arrayList.add(id)
+                    }
+
+                    if (!arrayList.contains(auth.currentUser!!.uid)) {
+                        snapshot.ref.push().setValue(auth.currentUser!!.uid).addOnSuccessListener {
+                            binding.iconReact.setImageResource(R.drawable.ic_reacted)
+                        }
+                    }
+                }
+
+                override fun onCancelled(error: DatabaseError) {
+                    TODO("Not yet implemented")
+                }
+
+            })
+        }
+
     }
 
 }

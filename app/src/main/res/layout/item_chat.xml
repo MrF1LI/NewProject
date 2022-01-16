@@ -27,25 +27,26 @@
             android:id="@+id/chatName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:maxLines="1"
-            android:ellipsize="end"
             android:layout_alignParentStart="true"
             android:layout_alignParentTop="true"
-            android:textStyle="bold"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:text="გიზი ჯალიაშვილი"
+            android:textColor="@color/opposite_color"
             android:textSize="16sp"
-            android:textColor="@color/black"
-            android:text="გიზი ჯალიაშვილი" />
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/lastMessage"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:maxLines="1"
-            android:ellipsize="end"
-            android:textSize="14sp"
             android:layout_alignParentStart="true"
             android:layout_alignParentBottom="true"
-            android:text="ოქეი" />
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:text="ოქეი"
+            android:textColor="@color/tw_color"
+            android:textSize="14sp" />
 
     </RelativeLayout>
 

@@ -9,6 +9,7 @@ import android.widget.ImageView
 import android.widget.RelativeLayout
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.beloo.widget.chipslayoutmanager.ChipsLayoutManager
 import com.example.btustudents.R
 import com.example.btustudents.models.Post
 import com.google.firebase.auth.FirebaseAuth
@@ -16,7 +17,11 @@ import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
-import org.w3c.dom.Text
+
+import com.beloo.widget.chipslayoutmanager.SpacingItemDecoration
+
+
+
 
 class PostsAdapter(val context: Context, private val posts: List<Post>, private val listener: OnItemClickListener): RecyclerView.Adapter<PostsAdapter.ViewHolder>() {
 
@@ -28,12 +33,20 @@ class PostsAdapter(val context: Context, private val posts: List<Post>, private 
         val postContent: TextView = view.findViewById(R.id.postContent)
         val commentCount: TextView = view.findViewById(R.id.commentCount)
         val reactCount: TextView = view.findViewById(R.id.reactCount)
-//        val userAvatar: CircleImageView = view.findViewById(R.id.userAvatar)
+
+        val recyclerViewTag: RecyclerView = view.findViewById(R.id.recyclerViewTags) // new
 
         private val item: RelativeLayout = view.findViewById(R.id.post)
 
         init {
             item.setOnClickListener(this)
+
+            recyclerViewTag.addItemDecoration(
+                SpacingItemDecoration(
+                    context.resources.getDimensionPixelOffset(R.dimen.item_space),
+                    context.resources.getDimensionPixelOffset(R.dimen.item_space)
+                )
+            )
         }
 
         override fun onClick(p0: View?) {
@@ -60,6 +73,28 @@ class PostsAdapter(val context: Context, private val posts: List<Post>, private 
 
         holder.postOwner.text = currentPost.postOwner
         holder.postContent.text = currentPost.postContent
+
+        dbPosts.addValueEventListener(object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+
+                val arrayListTags: ArrayList<String> = arrayListOf()
+                val current = snapshot.child(position.toString())
+
+                for (tag in current.child("postTags").children) {
+                    val currentTag = tag.getValue(String::class.java)?: return
+                    arrayListTags.add(currentTag)
+                }
+
+                nestedRecycler(holder.recyclerViewTag, arrayListTags)
+
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                TODO("Not yet implemented")
+            }
+        })
+
+        //
 
         dbPosts.child(position.toString()).child("postComments").addListenerForSingleValueEvent(object : ValueEventListener {
 
@@ -113,6 +148,16 @@ class PostsAdapter(val context: Context, private val posts: List<Post>, private 
     interface OnItemClickListener {
         fun onItemClick(position: Int)
         fun onReactClick(position: Int, view: ImageView)
+    }
+
+    private fun nestedRecycler(recyclerView: RecyclerView, tagList: ArrayList<String>) {
+
+        val layoutManager = ChipsLayoutManager.newBuilder(context)
+            .build()
+
+        recyclerView.layoutManager = layoutManager
+
+        recyclerView.adapter = TagAdapter(context, tagList)
     }
 
 }

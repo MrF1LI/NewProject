@@ -5,23 +5,44 @@ import android.os.Bundle
 import android.util.Log
 import android.view.WindowManager
 import androidx.appcompat.app.AlertDialog
+import androidx.core.view.GravityCompat
 import com.example.btustudents.databinding.ActivityAddPostBinding
+import com.example.btustudents.fragments.AddTagsBottomSheet
+import com.example.btustudents.fragments.OnDataPass
 import com.example.btustudents.models.Post
 import com.example.btustudents.models.Student
+import com.google.android.material.chip.Chip
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 
-class AddPostActivity : AppCompatActivity() {
+class AddPostActivity : AppCompatActivity(), OnDataPass {
 
     private lateinit var binding: ActivityAddPostBinding
     private val dbPosts = FirebaseDatabase.getInstance().getReference("posts")
     private val dbStudents = FirebaseDatabase.getInstance().getReference("students")
     private val auth = FirebaseAuth.getInstance()
 
+    private var arrayListTags: ArrayList<String> = arrayListOf()
+
     var id: Long = 0
+
+    override fun onDataPass(data: ArrayList<String>) {
+        arrayListTags = data
+
+        for (tag in arrayListTags) {
+            val chip = Chip(this)
+
+            chip.text = tag
+            chip.isCloseIconVisible = true
+            chip.setOnCloseIconClickListener {
+                binding.filterTags.removeView(chip)
+            }
+            binding.filterTags.addView(chip)
+        }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -47,8 +68,8 @@ class AddPostActivity : AppCompatActivity() {
             if (binding.editTextPost.text.isNotEmpty()) {
 
                 AlertDialog.Builder(this)
-                    .setTitle("Add Post")
-                    .setMessage("... Post?")
+                    .setTitle("Post")
+                    .setMessage("Public Post?")
                     .setPositiveButton("Yes") { dialog, _ ->
                         addPost()
                         dialog.dismiss()
@@ -61,6 +82,9 @@ class AddPostActivity : AppCompatActivity() {
         }
 
         binding.buttonAddTags.setOnClickListener {
+            val modalBottomSheet = AddTagsBottomSheet()
+
+            modalBottomSheet.show(supportFragmentManager, null)
 
         }
 
@@ -80,7 +104,13 @@ class AddPostActivity : AppCompatActivity() {
                         val postOwner = studentsSnapshot.child(auth.currentUser!!.uid).getValue(Student::class.java)?: return
                         val postContent = binding.editTextPost.text.toString()
                         val postOwnerId = auth.currentUser!!.uid
+
                         postSnapshot.child(id.toString()).ref.setValue(Post(postContent, postOwner.name + " " + postOwner.surname, postOwnerId)).addOnSuccessListener {
+
+                            for (tag in arrayListTags) {
+                                postSnapshot.child(id.toString()).ref.child("postTags").push().setValue(tag)
+                            }
+
                             finish()
                         }
 

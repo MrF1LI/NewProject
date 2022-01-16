@@ -1,6 +1,7 @@
 package com.example.btustudents.fragments
 
 import android.content.Intent
+import android.graphics.Color
 import android.os.Bundle
 import android.renderscript.Sampler
 import android.util.Log
@@ -8,6 +9,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.add
 import androidx.fragment.app.commit
@@ -79,6 +81,7 @@ class CommunityFragment: Fragment(R.layout.fragment_community), PostsAdapter.OnI
                 arrayListPosts.clear()
 
                 for (postSnapshot in snapshot.children) {
+
                     val post = postSnapshot.getValue(Post::class.java)?: return
                     arrayListPosts.add(post)
                 }

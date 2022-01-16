@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/bg_color"
     tools:context=".AddPostActivity">
 
     <RelativeLayout
@@ -24,16 +25,18 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="40dp"
+            android:layout_centerVertical="true"
             android:layout_toEndOf="@id/buttonBack"
             android:gravity="center"
-            android:layout_centerVertical="true"
             android:text="Add Post"
-            android:textColor="@color/btu_dark"
+            android:textColor="@color/text_color"
             android:textSize="16sp"
             android:textStyle="bold" />
 
         <Button
             android:id="@+id/buttonAddPost"
+            android:background="@color/item_color"
+            android:textColor="@color/opposite_color"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
@@ -47,6 +50,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:scrollbars="none"
+        android:background="@color/bg_color"
         android:layout_below="@+id/addPostHeader">
 
         <LinearLayout
@@ -61,30 +65,15 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
                 android:layout_centerVertical="true"
-                android:background="@drawable/bg_icons"
                 app:tint="@color/opposite_color"
                 android:padding="8dp"
                 app:srcCompat="@drawable/ic_add" />
 
             <com.google.android.material.chip.ChipGroup
+                android:id="@+id/filterTags"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 app:singleLine="true">
-
-                <com.google.android.material.chip.Chip
-                    android:id="@+id/chip2"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    app:closeIcon="@drawable/ic_baseline_close_24"
-                    android:text="მენეჯმენტი" />
-
-                <com.google.android.material.chip.Chip
-                    android:id="@+id/chip3"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    app:chipIcon="@drawable/ic_done"
-                    android:text="ფინანსები" />
-
 
             </com.google.android.material.chip.ChipGroup>
 
@@ -96,16 +85,18 @@
         android:id="@+id/bottomHeader"
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="#C6928B8B"
-        android:layout_below="@+id/addPostHeader" />
+        android:layout_below="@+id/addPostHeader"
+        android:background="#C6928B8B" />
 
     <EditText
         android:id="@+id/editTextPost"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:layout_below="@id/chips"
-        android:backgroundTint="@color/white"
-        android:inputType="text|textMultiLine"
-        android:gravity="start"/>
+        android:backgroundTint="@color/bg_color"
+        android:background="@color/bg_color"
+        android:gravity="start"
+        android:paddingHorizontal="5dp"
+        android:inputType="text|textMultiLine" />
 
 </RelativeLayout>

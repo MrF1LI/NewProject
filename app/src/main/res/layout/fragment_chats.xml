@@ -27,9 +27,9 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerViewChats"
-        android:layout_below="@+id/topLine"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:listitem="@layout/item_chat"/>
+        android:layout_below="@+id/topLine"
+        tools:listitem="@layout/item_chat" />
 
 </RelativeLayout>
