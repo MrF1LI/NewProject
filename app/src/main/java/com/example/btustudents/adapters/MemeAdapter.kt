@@ -2,12 +2,16 @@ package com.example.btustudents.adapters
 
 import android.content.Context
 import android.net.Uri
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.example.btustudents.R
+import com.google.firebase.storage.FirebaseStorage
+import java.lang.Exception
 
 class MemeAdapter(val context: Context, private val memes: ArrayList<String>):
     RecyclerView.Adapter<MemeAdapter.ViewHolder>() {
@@ -24,7 +28,18 @@ class MemeAdapter(val context: Context, private val memes: ArrayList<String>):
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val currentImage = memes[position]
 
-        holder.imageViewMeme.setImageURI(Uri.parse(currentImage))
+//        holder.imageViewMeme.setImageURI(Uri.parse(currentImage))
+        val storageReference = FirebaseStorage.getInstance().getReferenceFromUrl("gs://students-61271.appspot.com/")
+
+        storageReference.child("Memes/${currentImage}").downloadUrl.addOnSuccessListener { url ->
+            Glide.with(context).load(url).into(holder.imageViewMeme)
+        }.addOnFailureListener {
+            try {
+                throw it
+            } catch (exc: Exception) {
+                Log.d("GET_LOG", exc.toString())
+            }
+        }
 
     }
 

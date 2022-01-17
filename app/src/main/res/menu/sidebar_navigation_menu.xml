@@ -16,4 +16,9 @@
         android:icon="@drawable/ic_memes"
         android:title="Memes" />
 
+    <item
+        android:id="@+id/fragmentRates"
+        android:icon="@drawable/ic_rate"
+        android:title="Rates" />
+
 </menu>

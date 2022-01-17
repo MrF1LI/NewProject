@@ -29,10 +29,10 @@
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/userAvatar"
             android:layout_width="40dp"
-            android:layout_marginEnd="10dp"
             android:layout_height="40dp"
-            android:layout_toEndOf="@+id/iconBack"
             android:layout_centerVertical="true"
+            android:layout_marginEnd="10dp"
+            android:layout_toEndOf="@+id/iconBack"
             android:src="@drawable/ic_user_default"
             app:civ_border_color="#C6000000" />
 
@@ -62,8 +62,8 @@
         android:id="@+id/recyclerViewMessages"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/header"
-        android:layout_above="@id/sendMessage" />
+        android:layout_above="@id/sendMessage"
+        android:layout_below="@+id/header" />
 
     <RelativeLayout
         android:id="@+id/sendMessage"

@@ -6,24 +6,15 @@
     android:background="@color/bg_color"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <RelativeLayout
+    <TextView
         android:id="@+id/topLine"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:padding="10dp"
-        android:layout_height="wrap_content">
-
-        <EditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/bg_edittext"
-            android:hint="Search"
-            android:maxLines="1"
-            android:drawableStart="@drawable/ic_search"
-            android:paddingHorizontal="20dp"
-            android:layout_centerVertical="true"
-            android:paddingVertical="7dp" />
-
-    </RelativeLayout>
+        android:textStyle="bold"
+        android:textSize="18sp"
+        android:textColor="@color/text_color"
+        android:text="Chats" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerViewChats"

@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.example.btustudents.ChatActivity
 import com.example.btustudents.R
 import com.example.btustudents.models.Message
@@ -17,6 +18,9 @@ import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
+import com.google.firebase.storage.FirebaseStorage
+import de.hdodenhof.circleimageview.CircleImageView
+import java.lang.Exception
 import kotlin.reflect.typeOf
 
 class ChatsAdapter(val context: Context, private val chats: List<String>):
@@ -29,6 +33,7 @@ class ChatsAdapter(val context: Context, private val chats: List<String>):
     inner class ViewHolder(view: View): RecyclerView.ViewHolder(view) {
         val chatName: TextView = view.findViewById(R.id.chatName)
         val lastMessage: TextView = view.findViewById(R.id.lastMessage)
+        val chatAvatar: CircleImageView = view.findViewById(R.id.chatUserAvatar)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -46,6 +51,18 @@ class ChatsAdapter(val context: Context, private val chats: List<String>):
 
                 holder.chatName.text = currentStudent.name + " " + currentStudent.surname
 
+                val storageReference = FirebaseStorage.getInstance().getReferenceFromUrl("gs://students-61271.appspot.com/")
+
+                storageReference.child("ProfilePictures/${currentChat}").downloadUrl.addOnSuccessListener { url ->
+                    Glide.with(context).load(url).into(holder.chatAvatar)
+                }.addOnFailureListener {
+                    try {
+                        throw it
+                    } catch (exc: Exception) {
+                        Log.d("GET_LOG", exc.toString())
+                    }
+                }
+
                 val chatRoom = auth.currentUser!!.uid + currentChat
                 Log.d("Show", chatRoom)
                 dbChats.child(chatRoom).child("messages").limitToLast(1).addValueEventListener(object : ValueEventListener {
@@ -61,8 +78,6 @@ class ChatsAdapter(val context: Context, private val chats: List<String>):
                         TODO("Not yet implemented")
                     }
                 })
-//                holder.lastMessage.text =
-
 
                 Log.d("Show", "test: $currentStudent")
 

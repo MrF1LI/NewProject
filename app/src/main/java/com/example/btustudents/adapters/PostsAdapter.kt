@@ -2,12 +2,15 @@ package com.example.btustudents.adapters
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import android.widget.LinearLayout
 import android.widget.RelativeLayout
 import android.widget.TextView
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.beloo.widget.chipslayoutmanager.ChipsLayoutManager
 import com.example.btustudents.R
@@ -19,8 +22,10 @@ import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 
 import com.beloo.widget.chipslayoutmanager.SpacingItemDecoration
-
-
+import com.bumptech.glide.Glide
+import com.google.firebase.storage.FirebaseStorage
+import de.hdodenhof.circleimageview.CircleImageView
+import java.lang.Exception
 
 
 class PostsAdapter(val context: Context, private val posts: List<Post>, private val listener: OnItemClickListener): RecyclerView.Adapter<PostsAdapter.ViewHolder>() {
@@ -30,6 +35,7 @@ class PostsAdapter(val context: Context, private val posts: List<Post>, private 
 
     inner class ViewHolder(view: View): RecyclerView.ViewHolder(view), View.OnClickListener {
         val postOwner: TextView = view.findViewById(R.id.postOwner)
+        val postOwnerAvatar: CircleImageView = view.findViewById(R.id.userAvatar)
         val postContent: TextView = view.findViewById(R.id.postContent)
         val commentCount: TextView = view.findViewById(R.id.commentCount)
         val reactCount: TextView = view.findViewById(R.id.reactCount)
@@ -58,7 +64,6 @@ class PostsAdapter(val context: Context, private val posts: List<Post>, private 
             item.findViewById<ImageView>(R.id.iconReact).setOnClickListener {
                 listener.onReactClick(position, item.findViewById(R.id.iconReact))
             }
-
         }
 
     }
@@ -73,6 +78,18 @@ class PostsAdapter(val context: Context, private val posts: List<Post>, private 
 
         holder.postOwner.text = currentPost.postOwner
         holder.postContent.text = currentPost.postContent
+
+        val storageReference = FirebaseStorage.getInstance().getReferenceFromUrl("gs://students-61271.appspot.com/")
+
+        storageReference.child("ProfilePictures/${currentPost.postOwnerId}").downloadUrl.addOnSuccessListener { url ->
+            Glide.with(context).load(url).into(holder.postOwnerAvatar)
+        }.addOnFailureListener {
+            try {
+                throw it
+            } catch (exc: Exception) {
+                Log.d("GET_LOG", exc.toString())
+            }
+        }
 
         dbPosts.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {

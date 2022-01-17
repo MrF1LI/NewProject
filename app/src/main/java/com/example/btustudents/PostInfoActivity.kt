@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.beloo.widget.chipslayoutmanager.ChipsLayoutManager
 import com.beloo.widget.chipslayoutmanager.SpacingItemDecoration
+import com.bumptech.glide.Glide
 import com.example.btustudents.adapters.CommentsAdapter
 import com.example.btustudents.adapters.TagAdapter
 import com.example.btustudents.databinding.ActivityPostInfoBinding
@@ -18,6 +19,8 @@ import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
+import com.google.firebase.storage.FirebaseStorage
+import java.lang.Exception
 
 class PostInfoActivity : AppCompatActivity() {
 
@@ -106,12 +109,22 @@ class PostInfoActivity : AppCompatActivity() {
 
                     recyclerViewTags.adapter = TagAdapter(this@PostInfoActivity, arrayListTags)
 
-                    //
-
                     val currentPost = snapshot.child(currentPostId.toString()).getValue(Post::class.java)?: return
 
                     binding.postOwner.text = currentPost.postOwner
                     binding.postContent.text = currentPost.postContent
+
+                    val storageReference = FirebaseStorage.getInstance().getReferenceFromUrl("gs://students-61271.appspot.com/")
+
+                    storageReference.child("ProfilePictures/${currentPost.postOwnerId}").downloadUrl.addOnSuccessListener { url ->
+                        Glide.with(this@PostInfoActivity).load(url).into(binding.userAvatar)
+                    }.addOnFailureListener {
+                        try {
+                            throw it
+                        } catch (exc: Exception) {
+                            Log.d("GET_LOG", exc.toString())
+                        }
+                    }
                 }
             }
 

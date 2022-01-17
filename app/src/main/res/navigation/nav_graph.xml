@@ -23,4 +23,10 @@
         android:label="MemesFragment"
         tools:layout="@layout/fragment_memes" />
 
+    <fragment
+        android:id="@+id/fragmentRates"
+        android:name="com.example.btustudents.fragments.RateFragment"
+        android:label="RateFragment"
+        tools:layout="@layout/fragment_rate"/>
+
 </navigation>

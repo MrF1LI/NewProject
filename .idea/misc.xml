@@ -15,7 +15,7 @@
         <entry key="..\:/Users/F1LI/AndroidStudioProjects/BTUStudents/app/src/main/res/drawable/bg_sent_message.xml" value="0.26205128205128203" />
         <entry key="..\:/Users/F1LI/AndroidStudioProjects/BTUStudents/app/src/main/res/drawable/ic_notification_logo.xml" value="0.26614583333333336" />
         <entry key="..\:/Users/F1LI/AndroidStudioProjects/BTUStudents/app/src/main/res/layout/activity_add_friend.xml" value="0.264" />
-        <entry key="..\:/Users/F1LI/AndroidStudioProjects/BTUStudents/app/src/main/res/layout/activity_add_post.xml" value="0.536" />
+        <entry key="..\:/Users/F1LI/AndroidStudioProjects/BTUStudents/app/src/main/res/layout/activity_add_post.xml" value="0.22757847533632286" />
         <entry key="..\:/Users/F1LI/AndroidStudioProjects/BTUStudents/app/src/main/res/layout/activity_chat.xml" value="0.264" />
         <entry key="..\:/Users/F1LI/AndroidStudioProjects/BTUStudents/app/src/main/res/layout/activity_login.xml" value="0.25" />
         <entry key="..\:/Users/F1LI/AndroidStudioProjects/BTUStudents/app/src/main/res/layout/activity_main.xml" value="0.4" />
@@ -30,15 +30,18 @@
         <entry key="..\:/Users/F1LI/AndroidStudioProjects/BTUStudents/app/src/main/res/layout/fragment_memes.xml" value="0.25" />
         <entry key="..\:/Users/F1LI/AndroidStudioProjects/BTUStudents/app/src/main/res/layout/fragment_post_info.xml" value="0.25" />
         <entry key="..\:/Users/F1LI/AndroidStudioProjects/BTUStudents/app/src/main/res/layout/fragment_profile.xml" value="0.25" />
+        <entry key="..\:/Users/F1LI/AndroidStudioProjects/BTUStudents/app/src/main/res/layout/fragment_rate.xml" value="0.4" />
         <entry key="..\:/Users/F1LI/AndroidStudioProjects/BTUStudents/app/src/main/res/layout/header_sidebar_navigation.xml" value="0.25" />
         <entry key="..\:/Users/F1LI/AndroidStudioProjects/BTUStudents/app/src/main/res/layout/item_chat.xml" value="0.25" />
         <entry key="..\:/Users/F1LI/AndroidStudioProjects/BTUStudents/app/src/main/res/layout/item_comment.xml" value="0.264" />
         <entry key="..\:/Users/F1LI/AndroidStudioProjects/BTUStudents/app/src/main/res/layout/item_list.xml" value="0.25" />
         <entry key="..\:/Users/F1LI/AndroidStudioProjects/BTUStudents/app/src/main/res/layout/item_meme.xml" value="0.25" />
         <entry key="..\:/Users/F1LI/AndroidStudioProjects/BTUStudents/app/src/main/res/layout/item_post.xml" value="0.264" />
+        <entry key="..\:/Users/F1LI/AndroidStudioProjects/BTUStudents/app/src/main/res/layout/item_rate.xml" value="0.264" />
         <entry key="..\:/Users/F1LI/AndroidStudioProjects/BTUStudents/app/src/main/res/layout/item_tag.xml" value="0.25" />
         <entry key="..\:/Users/F1LI/AndroidStudioProjects/BTUStudents/app/src/main/res/layout/message_receive.xml" value="0.1" />
         <entry key="..\:/Users/F1LI/AndroidStudioProjects/BTUStudents/app/src/main/res/layout/message_sent.xml" value="0.25" />
+        <entry key="..\:/Users/F1LI/AndroidStudioProjects/BTUStudents/app/src/main/res/menu/menu_rate.xml" value="0.25" />
         <entry key="..\:/Users/F1LI/AndroidStudioProjects/BTUStudents/app/src/main/res/menu/sidebar_navigation_menu.xml" value="0.25" />
       </map>
     </option>

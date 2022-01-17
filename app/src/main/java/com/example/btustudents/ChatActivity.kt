@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.util.Log
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.example.btustudents.adapters.MessageAdapter
 import com.example.btustudents.databinding.ActivityChatBinding
 import com.example.btustudents.models.Message
@@ -14,6 +15,8 @@ import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
+import com.google.firebase.storage.FirebaseStorage
+import java.lang.Exception
 
 class ChatActivity : AppCompatActivity() {
 
@@ -45,7 +48,7 @@ class ChatActivity : AppCompatActivity() {
         init()
         loadMessages()
         sendMessage(senderUid)
-        test(receiverUid.toString())
+        info(receiverUid.toString())
 
         binding.iconBack.setOnClickListener {
             finish()
@@ -53,7 +56,7 @@ class ChatActivity : AppCompatActivity() {
 
     }
 
-    private fun test(receiverUid: String) {
+    private fun info(receiverUid: String) {
 
         dbStudents.addValueEventListener(object : ValueEventListener {
 
@@ -61,6 +64,18 @@ class ChatActivity : AppCompatActivity() {
                 val currentName = snapshot.child(receiverUid).getValue(Student::class.java)?: return
 
                 binding.friendName.text = currentName.name + " " + currentName.surname
+
+                val storageReference = FirebaseStorage.getInstance().getReferenceFromUrl("gs://students-61271.appspot.com/")
+
+                storageReference.child("ProfilePictures/${receiverUid}").downloadUrl.addOnSuccessListener { url ->
+                    Glide.with(this@ChatActivity).load(url).into(binding.userAvatar)
+                }.addOnFailureListener {
+                    try {
+                        throw it
+                    } catch (exc: Exception) {
+                        Log.d("GET_LOG", exc.toString())
+                    }
+                }
             }
 
             override fun onCancelled(error: DatabaseError) {
